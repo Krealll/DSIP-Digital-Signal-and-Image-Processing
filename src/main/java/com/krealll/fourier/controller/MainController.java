@@ -2,7 +2,7 @@ package com.krealll.fourier.controller;
 
 import com.krealll.fourier.model.ComplexNumber;
 import com.krealll.fourier.model.FourierService;
-import com.krealll.fourier.model.TransformParameters;
+import com.krealll.fourier.model.TransformParameter;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.ScatterChart;
@@ -54,7 +54,7 @@ public class MainController  {
             String someInput = inputN.getText();
             Matcher matcher = pattern.matcher(someInput);
             if(matcher.matches()){
-                TransformParameters.setN(Integer.parseInt(someInput));
+                TransformParameter.setN(Integer.parseInt(someInput));
                 ChartCreator.showChart(origin);
                 operateDFT();
                 DFTCalculations.setText("+: "+displayedPlusCalculations+", *: "+displayedTimesCalculations);
@@ -111,7 +111,7 @@ public class MainController  {
 
     private void logResult(ComplexNumber[] numbers, String name){
         System.out.println(name);
-        for (int i = 0; i <TransformParameters.getN() ; i++) {
+        for (int i = 0; i < TransformParameter.getN() ; i++) {
             System.out.println("Number["+i+"]="+numbers[i].toString());
         }
     }

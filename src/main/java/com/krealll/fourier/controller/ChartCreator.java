@@ -1,7 +1,7 @@
 package com.krealll.fourier.controller;
 
 import com.krealll.fourier.model.ComplexNumber;
-import com.krealll.fourier.model.TransformParameters;
+import com.krealll.fourier.model.TransformParameter;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
@@ -13,9 +13,9 @@ public class ChartCreator {
         chart.setLegendVisible(false);
         chart.setAnimated(false);
         Series series = new Series();
-        for (int i = 0; i < TransformParameters.getN(); i++) {
-            double x = TransformParameters.PERIOD*(double)i/TransformParameters.getN();
-            series.getData().add(new XYChart.Data<>(x,TransformParameters.FUNCTION.apply(x)));
+        for (int i = 0; i < TransformParameter.getN(); i++) {
+            double x = TransformParameter.PERIOD*(double)i/ TransformParameter.getN();
+            series.getData().add(new XYChart.Data<>(x, TransformParameter.FUNCTION.apply(x)));
         }
         chart.getData().add(series);
     }
@@ -24,12 +24,12 @@ public class ChartCreator {
         chart.setLegendVisible(false);
         chart.setAnimated(false);
         double[] xValues = new double[numbers.length];
-        for (int i = 0; i < TransformParameters.getN(); i++) {
-            xValues[i] = TransformParameters.PERIOD*(double)i/TransformParameters.getN();
+        for (int i = 0; i < TransformParameter.getN(); i++) {
+            xValues[i] = TransformParameter.PERIOD*(double)i/ TransformParameter.getN();
         }
 
         Series series = new Series();
-        for (int i = 0; i <TransformParameters.getN(); i++) {
+        for (int i = 0; i < TransformParameter.getN(); i++) {
             series.getData().add(new XYChart.Data<>(xValues[i],numbers[i]));
         }
         chart.getData().add(series);
@@ -39,10 +39,10 @@ public class ChartCreator {
         chart.setLegendVisible(false);
         chart.setAnimated(false);
         Series series = new Series();
-        for (int i = -TransformParameters.getN()+1, j=TransformParameters.getN()-1; i <0; j--, i++) {
+        for (int i = -TransformParameter.getN()+1, j = TransformParameter.getN()-1; i <0; j--, i++) {
             series.getData().add(new XYChart.Data<>(i,numbers[j].abs()));
         }
-        for (int i = 0; i < TransformParameters.getN(); i++) {
+        for (int i = 0; i < TransformParameter.getN(); i++) {
             series.getData().add(new XYChart.Data<>(i,numbers[i].abs()));
         }
         chart.getData().add(series);
@@ -52,10 +52,10 @@ public class ChartCreator {
         chart.setLegendVisible(false);
         chart.setAnimated(false);
         Series series = new Series();
-        for (int i = -TransformParameters.getN()+1, j=TransformParameters.getN()-1; i <0; j--, i++) {
+        for (int i = -TransformParameter.getN()+1, j = TransformParameter.getN()-1; i <0; j--, i++) {
             series.getData().add(new XYChart.Data<>(i,-numbers[j].phase()));
         }
-        for (int i = 0; i < TransformParameters.getN(); i++) {
+        for (int i = 0; i < TransformParameter.getN(); i++) {
             series.getData().add(new XYChart.Data<>(i,numbers[i].phase()));
         }
         chart.getData().add(series);
