@@ -1,7 +1,6 @@
 package com.krealll.fourier.model;
 
 public class ComplexNumber {
-    private static int minusCounter;
     private static int multiplyCounter;
     private static int plusCounter;
 
@@ -41,7 +40,6 @@ public class ComplexNumber {
     }
 
     public ComplexNumber minus(ComplexNumber b) {
-        minusCounter++;
         ComplexNumber a = this;
         double real = a.re - b.re;
         double imag = a.im - b.im;
@@ -77,14 +75,6 @@ public class ComplexNumber {
         return re;
     }
 
-    public double im() {
-        return im;
-    }
-
-    public static int getMinusCounter() {
-        return minusCounter;
-    }
-
     public static int getMultiplyCounter() {
         return multiplyCounter;
     }
@@ -95,7 +85,6 @@ public class ComplexNumber {
     }
 
     public static void nullifyAllCounters() {
-        minusCounter = 0;
         plusCounter = 0;
         multiplyCounter = 0;
     }
