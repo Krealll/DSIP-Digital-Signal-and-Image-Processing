@@ -63,14 +63,6 @@ public class ComplexNumber {
         return normalize(new ComplexNumber(this.re / param, this.im / param));
     }
 
-    public ComplexNumber sin() {
-        return normalize(new ComplexNumber(Math.sin(re) * Math.cosh(im), Math.cos(re) * Math.sinh(im)));
-    }
-
-    public ComplexNumber cos() {
-        return normalize(new ComplexNumber(Math.cos(re) * Math.cosh(im), -Math.sin(re) * Math.sinh(im)));
-    }
-
     public double re() {
         return re;
     }
