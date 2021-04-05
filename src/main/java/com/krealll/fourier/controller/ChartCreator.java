@@ -9,6 +9,8 @@ import javafx.scene.chart.XYChart.Series;
 
 public class ChartCreator {
 
+
+
     public static void showChart(LineChart<Number,Number> chart){
         chart.setLegendVisible(false);
         chart.setAnimated(false);
@@ -16,6 +18,28 @@ public class ChartCreator {
         for (int i = 0; i < TransformParameter.getN(); i++) {
             double x = TransformParameter.PERIOD*(double)i/ TransformParameter.getN();
             series.getData().add(new XYChart.Data<>(x, TransformParameter.FUNCTION.apply(x)));
+        }
+        chart.getData().add(series);
+    }
+
+    public static void showSin(LineChart<Number,Number> chart){
+        chart.setLegendVisible(false);
+        chart.setAnimated(false);
+        Series series = new Series();
+        for (int i = 0; i < TransformParameter.getN(); i++) {
+            double x = TransformParameter.PERIOD*(double)i/ TransformParameter.getN();
+            series.getData().add(new XYChart.Data<>(x, TransformParameter.SIN_FUNCTION.apply(x)));
+        }
+        chart.getData().add(series);
+    }
+
+    public static void showCos(LineChart<Number,Number> chart){
+        chart.setLegendVisible(false);
+        chart.setAnimated(false);
+        Series series = new Series();
+        for (int i = 0; i < TransformParameter.getN(); i++) {
+            double x = TransformParameter.PERIOD*(double)i/ TransformParameter.getN();
+            series.getData().add(new XYChart.Data<>(x, TransformParameter.COS_FUNCTION.apply(x)));
         }
         chart.getData().add(series);
     }

@@ -1,11 +1,10 @@
 package com.krealll.fourier.controller;
 
-import com.krealll.fourier.model.ComplexNumber;
-import com.krealll.fourier.model.FourierService;
+import com.krealll.fourier.service.DSPService;
+import com.krealll.fourier.model.OperationCounter;
 import com.krealll.fourier.model.TransformParameter;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.ScatterChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -25,29 +24,38 @@ public class MainController  {
     @FXML
     TextField inputN;
     @FXML
-    LineChart<Number,Number> inverseFFT;
-    @FXML
-    ScatterChart<Number,Number> phaseFFT;
-    @FXML
-    ScatterChart<Number,Number> phaseDFT ;
-    @FXML
-    LineChart<Number,Number> amplitudeFFT;
-    @FXML
-    LineChart<Number,Number> inverseDFT;
-    @FXML
-    LineChart<Number,Number> amplitudeDTF;
-    @FXML
-    LineChart<Number, Number> origin;
-    @FXML
     Button clearButton;
+
+
     @FXML
-    Label DFTCalculationLabel;
+    LineChart<Number,Number> cosX;
     @FXML
-    Label FFTCalculationLabel;
+    LineChart<Number,Number> sinX;
     @FXML
-    Label DFTCalculations;
+    LineChart<Number,Number> Convolution ;
     @FXML
-    Label FFTCalculations;
+    LineChart<Number,Number> FFTConvolution;
+    @FXML
+    LineChart<Number,Number> Correlation;
+    @FXML
+    LineChart<Number,Number> FFTCorrelation;
+
+    @FXML
+    Label FFTCorCalcLabel;
+    @FXML
+    Label FFTCorCalc;
+    @FXML
+    Label CorCalcLabel;
+    @FXML
+    Label CorCalc;
+    @FXML
+    Label FFTConvCalsLabel;
+    @FXML
+    Label FFTConvCals;
+    @FXML
+    Label ConvCalsLabel;
+    @FXML
+    Label ConvCals;
 
     public void initialize(){
         computeButton.setOnMouseClicked((MouseEvent event) ->{
@@ -55,64 +63,88 @@ public class MainController  {
             Matcher matcher = pattern.matcher(someInput);
             if(matcher.matches()){
                 TransformParameter.setN(Integer.parseInt(someInput));
-                ChartCreator.showChart(origin);
-                operateDFT();
-                DFTCalculations.setText("+: "+displayedPlusCalculations+", *: "+displayedTimesCalculations);
-                DFTCalculationLabel.setVisible(true);
-                DFTCalculations.setVisible(true);
-                ComplexNumber.nullifyAllCounters();
-                operateFFT();
-                FFTCalculations.setText("+: "+displayedPlusCalculations+", *: "+displayedTimesCalculations);
-                FFTCalculationLabel.setVisible(true);
-                FFTCalculations.setVisible(true);
-                ComplexNumber.nullifyAllCounters();
+                ChartCreator.showCos(cosX);
+                ChartCreator.showSin(sinX);
+                operateConv();
+                ConvCals.setText("+: "+displayedPlusCalculations+", *: "+displayedTimesCalculations);
+                ConvCalsLabel.setVisible(true);
+                ConvCals.setVisible(true);
+                OperationCounter.nullAll();
+                operateFFTConv();
+                FFTConvCals.setText("+: "+displayedPlusCalculations+", *: "+displayedTimesCalculations);
+                FFTConvCalsLabel.setVisible(true);
+                FFTConvCals.setVisible(true);
+                OperationCounter.nullAll();
+                operateCorr();
+                CorCalc.setText("+: "+displayedPlusCalculations+", *: "+displayedTimesCalculations);
+                CorCalcLabel.setVisible(true);
+                CorCalc.setVisible(true);
+                OperationCounter.nullAll();
+                operateFFTCorr();
+                FFTCorCalc.setText("+: "+displayedPlusCalculations+", *: "+displayedTimesCalculations);
+                FFTCorCalcLabel.setVisible(true);
+                FFTCorCalc.setVisible(true);
+                OperationCounter.nullAll();
             }
         });
         clearButton.setOnMouseClicked((MouseEvent event) ->{
-            DFTCalculationLabel.setVisible(false);
-            FFTCalculationLabel.setVisible(false);
-            DFTCalculations.setVisible(false);
-            FFTCalculations.setVisible(false);
+            FFTCorCalcLabel.setVisible(false);
+            CorCalcLabel.setVisible(false);
+            FFTConvCalsLabel.setVisible(false);
+            ConvCalsLabel.setVisible(false);
+            ConvCals.setVisible(false);
+            FFTConvCals.setVisible(false);
+            CorCalc.setVisible(false);
+            FFTCorCalc.setVisible(false);
             displayedTimesCalculations = 0;
             displayedPlusCalculations = 0;
-            origin.getData().clear();
-            amplitudeDTF.getData().clear();
-            inverseFFT.getData().clear();
-            phaseFFT.getData().clear();
-            phaseDFT.getData().clear();
-            amplitudeFFT.getData().clear();
-            inverseDFT.getData().clear();
+            cosX.getData().clear();
+            sinX.getData().clear();
+            Convolution.getData().clear();
+            FFTConvolution.getData().clear();
+            Correlation.getData().clear();
+            FFTCorrelation.getData().clear();
         });
     }
 
-    private void operateDFT(){
-        FourierService service = new FourierService();
-        ComplexNumber[] resultDFT = service.discreteFourierTransform();
-        displayedPlusCalculations = ComplexNumber.getPlusCounter();
-        displayedTimesCalculations = ComplexNumber.getMultiplyCounter();
-        logResult(resultDFT,"DFT");
-        ChartCreator.showAmplitude(amplitudeDTF,resultDFT);
-        ChartCreator.showPhase(phaseDFT,resultDFT);
-        double[] inverseDFTResult = service.inverseFourierTransform(resultDFT);
-        ChartCreator.showChart(inverseDFT,inverseDFTResult);
+    private void operateConv(){
+        DSPService dspService = new DSPService();
+        double[] result = dspService.computeTransform(TransformParameter.CONVOLUTION);
+       // logResult(result,"Convolution");
+        displayedPlusCalculations = OperationCounter.getPlusCounter();
+        displayedTimesCalculations = OperationCounter.getMulCounter();
+        ChartCreator.showChart(Convolution,result);
+    }
+    private void operateFFTConv(){
+        DSPService dspService = new DSPService();
+        double[] result = dspService.computeFFTConvolution();
+        //logResult(result,"FFT Convolution");
+        displayedPlusCalculations = OperationCounter.getPlusCounter();
+        displayedTimesCalculations = OperationCounter.getMulCounter();
+        ChartCreator.showChart(FFTConvolution,result);
+    }
+    private void operateCorr(){
+        DSPService dspService = new DSPService();
+        double[] result = dspService.computeTransform(TransformParameter.CORRELATION);
+        //logResult(result,"Correlation");
+        displayedPlusCalculations = OperationCounter.getPlusCounter();
+        displayedTimesCalculations = OperationCounter.getMulCounter();
+        ChartCreator.showChart(Correlation,result);
     }
 
-    private void operateFFT(){
-        FourierService service = new FourierService();
-        ComplexNumber[] resultFFT = service.fastFourierTransform();
-        displayedPlusCalculations = ComplexNumber.getPlusCounter();
-        displayedTimesCalculations = ComplexNumber.getMultiplyCounter();
-        logResult(resultFFT,"FFT");
-        ChartCreator.showAmplitude(amplitudeFFT,resultFFT);
-        ChartCreator.showPhase(phaseFFT,resultFFT);
-        double[] inverseFFTResult = service.inverseFourierTransform(resultFFT);
-        ChartCreator.showChart(inverseFFT,inverseFFTResult);
+    private void operateFFTCorr(){
+        DSPService dspService = new DSPService();
+        double[] result = dspService.computeFFTCorrelation();
+       // logResult(result,"FFT Correlation");
+        displayedPlusCalculations = OperationCounter.getPlusCounter();
+        displayedTimesCalculations = OperationCounter.getMulCounter();
+        ChartCreator.showChart(FFTCorrelation,result);
     }
 
-    private void logResult(ComplexNumber[] numbers, String name){
+    private void logResult(double[] numbers, String name){
         System.out.println(name);
         for (int i = 0; i < TransformParameter.getN() ; i++) {
-            System.out.println("Number["+i+"]="+numbers[i].toString());
+            System.out.println("Number["+i+"]="+numbers[i]);
         }
     }
 

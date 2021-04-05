@@ -23,7 +23,6 @@ public class FourierApplication extends Application {
                 primaryStage.setTitle("Fourier transform");
                 primaryStage.setScene(new Scene(root));
                 primaryStage.show();
-                primaryStage.setResizable(false);
             } catch (IOException e) {
                 e.printStackTrace();
             }

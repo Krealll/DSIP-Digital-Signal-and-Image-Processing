@@ -1,22 +1,27 @@
-package com.krealll.fourier.model;
+package com.krealll.fourier.service;
+
+import com.krealll.fourier.model.ComplexNumber;
+import com.krealll.fourier.model.OperationCounter;
+import com.krealll.fourier.model.TransformParameter;
 
 import static java.lang.Math.*;
 
 public class FourierService {
 
-    public ComplexNumber[] discreteFourierTransform(){
+    public ComplexNumber[] discreteFourierTransform(int dir){
         ComplexNumber[] result = new ComplexNumber[TransformParameter.getN()];
-        for (int i = 0; i < TransformParameter.getN(); i++) {
-            result[i] = new ComplexNumber(0,0);
-        }
         for (int k = 0; k < TransformParameter.getN() ; k++) {
+            result[k] = new ComplexNumber(0,0);
             for (int m = 0; m < TransformParameter.getN() ; m++) {
                 double parameter = TransformParameter.PERIOD/ TransformParameter.getN();
-                ComplexNumber complexNumber = new ComplexNumber(cos(parameter*k*m),sin(parameter*k*m));
+                ComplexNumber complexNumber = new ComplexNumber(cos(parameter*k*m),dir * sin(parameter*k*m));
                 double x = TransformParameter.FUNCTION.apply(parameter*m);
                 result[k] = result[k].plus(complexNumber.times(x));
+                OperationCounter.incAll();
             }
-            result[k] = result[k].divides(TransformParameter.getN());
+            if (dir == -1) {
+                result[k] = result[k].divides(TransformParameter.getN());
+            }
         }
         return result;
     }
@@ -27,7 +32,7 @@ public class FourierService {
             functionNumbers[i] = new ComplexNumber(TransformParameter
                     .FUNCTION.apply(TransformParameter.PERIOD*(double)i/ TransformParameter.getN()));
         }
-        ComplexNumber[] result = computeFFT(functionNumbers);
+        ComplexNumber[] result = computeFFT(functionNumbers, 1);
         for (int i = 0; i < TransformParameter.getN() ; i++) {
             result[i] = result[i].divides(TransformParameter.getN());
         }
@@ -49,7 +54,7 @@ public class FourierService {
         return result;
     }
 
-    private static ComplexNumber[] computeFFT(ComplexNumber[] array){
+    public ComplexNumber[] computeFFT(ComplexNumber[] array, int dir){
         if(array.length==1){
             return array;
         }
@@ -62,16 +67,19 @@ public class FourierService {
                 odd[i/2] = array[i];
             }
         }
-        ComplexNumber[] evenResult = computeFFT(even);
-        ComplexNumber[] oddResult = computeFFT(odd);
+        ComplexNumber[] evenResult = computeFFT(even,dir);
+        ComplexNumber[] oddResult = computeFFT(odd,dir);
         ComplexNumber[] result = new ComplexNumber[array.length];
         ComplexNumber WN = new ComplexNumber(cos(TransformParameter.PERIOD/array.length),
-                sin(TransformParameter.PERIOD/array.length));
-        ComplexNumber w = new ComplexNumber(1);
+                dir * sin(TransformParameter.PERIOD/array.length));
+        ComplexNumber w = new ComplexNumber(1.0,0.0);
         for (int i = 0; i <array.length/2; i++) {
             result[i] = evenResult[i].plus(w.times(oddResult[i]));
             result[i+array.length/2] = evenResult[i].minus(w.times(oddResult[i]));
             w = w.times(WN);
+            OperationCounter.incAll();
+            OperationCounter.incAll();
+            OperationCounter.incMul();
         }
         return result;
     }
