@@ -12,7 +12,7 @@ public class TransformParameter {
     public static final Function<Double,Double> SIN_FUNCTION = Math::sin;
     public static final Function<Double,Double> COS_FUNCTION = Math::cos;
     public static final BinaryOperator<Integer> CORRELATION = (x,y)
-            -> (x + y + TransformParameter.getN()) % TransformParameter.getN();
+            -> (x + y ) % TransformParameter.getN();
     public static final BinaryOperator<Integer> CONVOLUTION = (x,y)
             -> (x - y + TransformParameter.getN()) % TransformParameter.getN();
     private TransformParameter(){}

@@ -29,7 +29,6 @@ public class DSPService {
         return result;
     }
 
-
     public double[] computeTransform(BinaryOperator<Integer> func){
         double[] sinNums = init(TransformParameter.SIN_FUNCTION);
         double[] cosNums = init(TransformParameter.COS_FUNCTION);

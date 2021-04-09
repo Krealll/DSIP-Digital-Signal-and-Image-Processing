@@ -56,7 +56,7 @@
                 <NumberAxis side="LEFT" />
             </yAxis>
         </LineChart>
-        <LineChart fx:id="sinX" layoutX="532.0" layoutY="55.0" prefHeight="320.0" prefWidth="380.0">
+        <LineChart fx:id="sinX" layoutX="548.0" layoutY="55.0" prefHeight="320.0" prefWidth="380.0">
             <xAxis>
                 <NumberAxis side="BOTTOM" />
             </xAxis>
