@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1691.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.krealll.fourier.controller.MainController">
+    <children>
+        <AnchorPane layoutX="42.0" layoutY="37.0" prefHeight="198.0" prefWidth="356.0">
+            <children>
+                <Label layoutX="22.0" layoutY="14.0" prefHeight="26.0" prefWidth="102.0" text="Input N:">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="inputN" layoutX="15.0" layoutY="51.0" maxWidth="198.0" prefHeight="26.0" prefWidth="198.0" />
+                <Button fx:id="computeButton" layoutX="15.0" layoutY="86.0" minWidth="150.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="198.0" text="Submit and compute" />
+                <Button fx:id="clearButton" layoutX="15.0" layoutY="129.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="198.0" text="Clear" />
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="14.0" layoutY="293.0" prefHeight="216.0" prefWidth="506.0">
+            <children>
+                <GridPane layoutX="14.0" layoutY="14.0" prefHeight="174.0" prefWidth="492.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="339.00001525878906" minWidth="10.0" prefWidth="339.00001525878906" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="238.00000762939453" minWidth="10.0" prefWidth="39.399984741210915" />
+                  <ColumnConstraints />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints />
+                    </rowConstraints>
+                    <children>
+                        <Label fx:id="FWTCalcLabel" prefHeight="27.0" prefWidth="332.0" text="FWT calculations number:" visible="false" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <Label fx:id="FWTCorCalc" prefHeight="32.0" prefWidth="142.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <Label fx:id="DWTCalcLabel" prefHeight="35.0" prefWidth="334.0" text="DWT calculations number:" visible="false" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <Label fx:id="DWTCorCalc" prefHeight="35.0" prefWidth="198.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="FWTConvCalcLabel" prefHeight="35.0" prefWidth="330.0" text="FWT converse calculations number:" visible="false" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <Label fx:id="FWTConvCalc" prefHeight="35.0" prefWidth="198.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label fx:id="DWTConvCalcLabel" prefHeight="35.0" prefWidth="335.0" text="DWT converse calculations number:" visible="false" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                        <Label fx:id="DWTConvCalc" prefHeight="35.0" prefWidth="198.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                    </children>
+                </GridPane>
+            </children>
+        </AnchorPane>
+        <LineChart fx:id="Function" layoutX="532.0" layoutY="55.0" prefHeight="320.0" prefWidth="380.0">
+            <xAxis>
+                <NumberAxis side="BOTTOM" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" />
+            </yAxis>
+        </LineChart>
+
+        <LineChart fx:id="FWT" layoutX="912.0" layoutY="400.0" prefHeight="320.0" prefWidth="380.0">
+            <xAxis>
+                <NumberAxis side="BOTTOM" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" />
+            </yAxis>
+        </LineChart>
+        <LineChart fx:id="DWT" layoutX="912.0" layoutY="55.0" prefHeight="320.0" prefWidth="380.0">
+            <xAxis>
+                <NumberAxis side="BOTTOM" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" />
+            </yAxis>
+        </LineChart>
+        <LineChart fx:id="convDWT" layoutX="1302.0" layoutY="55.0" prefHeight="320.0" prefWidth="380.0">
+            <xAxis>
+                <NumberAxis side="BOTTOM" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" />
+            </yAxis>
+        </LineChart>
+        <LineChart fx:id="convFWT" layoutX="1302.0" layoutY="392.0" prefHeight="320.0" prefWidth="380.0">
+            <xAxis>
+                <NumberAxis side="BOTTOM" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" />
+            </yAxis>
+        </LineChart>
+        <Label layoutX="1292.0" layoutY="364.0" prefHeight="35.0" prefWidth="184.0" text="converse FWT">
+            <font>
+                <Font size="24.0" />
+            </font></Label>
+        <Label layoutX="1292.0" layoutY="19.0" prefHeight="35.0" prefWidth="245.0" text="converse DWT">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <Label layoutX="548.0" layoutY="19.0" prefHeight="35.0" prefWidth="299.0" text="Function">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <Label layoutX="920.0" layoutY="364.0" prefHeight="35.0" prefWidth="282.0" text="FWT">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <Label layoutX="548.0" layoutY="364.0" prefHeight="35.0" prefWidth="282.0">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <Label layoutX="920.0" layoutY="19.0" prefHeight="35.0" prefWidth="152.0" text="DWT">
+            <font>
+                <Font size="24.0" />
+            </font>
+      </Label>
+
+    </children>
+</AnchorPane>
